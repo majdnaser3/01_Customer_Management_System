@@ -77,6 +77,21 @@ def main(page: ft.Page):
     )
 
     # ---------------------------------------------------------
+    # Search Customers
+    # ---------------------------------------------------------
+
+    def handel_search(e):
+        search_text = e.control.value.lower()
+        for row in customers_table.rows:
+            row.visible=False
+            for cell in row.cells:
+                if search_text in cell.content.content.value.lower():
+                    row.visible=True
+                    break
+        page.update()
+
+
+    # ---------------------------------------------------------
     # Dialog fields
     # ---------------------------------------------------------
 
@@ -190,6 +205,7 @@ def main(page: ft.Page):
         hint_text="Search customers...",
         color=ft.Colors.WHITE,
         border_color=ft.Colors.WHITE,
+        on_change=handel_search,
     )
 
     # ---------------------------------------------------------
