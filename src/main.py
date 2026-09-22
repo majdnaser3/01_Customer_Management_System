@@ -229,7 +229,57 @@ def main(page: ft.Page):
     # Save customer
     # ---------------------------------------------------------
 
+    def show_alert(message):
+        def close_alert(e):
+            alert.open = False
+            page.update()
+
+        alert = ft.AlertDialog(
+            title=ft.Text("Validation Error"),
+            content=ft.Text(message),
+            actions=[ft.TextButton("OK", on_click=close_alert)],
+        )
+        page.show_dialog(alert)
+
     def save_customer(e):
+
+        # Clean input values
+        name = name_field.value.strip() if name_field.value else ""
+        email = email_field.value.strip() if email_field.value else ""
+        phone = phone_field.value.strip() if phone_field.value else ""
+        company = (
+            company_field.value.strip()
+            if company_field.value
+            else ""
+        )
+
+        # Validation Checks (All fields required)
+        if not name:
+            show_alert("Name is required.")
+            return
+
+        if not email:
+            show_alert("Email is required.")
+            return
+
+        if "@" not in email or "." not in email:
+            show_alert("Please enter a valid email address.")
+            return
+
+        if not phone:
+            show_alert("Phone number is required.")
+            return
+
+        clean_phone = phone.replace("+", "")
+        if not clean_phone.isdigit():
+            show_alert(
+                "Phone number can only contain digits and '+' symbol."
+            )
+            return
+
+        if not company:
+            show_alert("Company is required.")
+            return
 
         # -----------------------------------------------------
         # Edit existing customer
@@ -245,21 +295,14 @@ def main(page: ft.Page):
 
                 if row_id == target_id:
 
-                    row.cells[1].content.content.value = (
-                        name_field.value
-                    )
+                    # Use cleaned values
+                    row.cells[1].content.content.value = name
 
-                    row.cells[2].content.content.value = (
-                        email_field.value
-                    )
+                    row.cells[2].content.content.value = email
 
-                    row.cells[3].content.content.value = (
-                        phone_field.value
-                    )
+                    row.cells[3].content.content.value = phone
 
-                    row.cells[4].content.content.value = (
-                        company_field.value
-                    )
+                    row.cells[4].content.content.value = company
 
                     break
 
@@ -276,10 +319,10 @@ def main(page: ft.Page):
             new_row = ft.DataRow(
                 cells=[
                     create_cell(customer_id, 40),
-                    create_cell(name_field.value, 90),
-                    create_cell(email_field.value, 120),
-                    create_cell(phone_field.value, 90),
-                    create_cell(company_field.value, 100),
+                    create_cell(name, 90),
+                    create_cell(email, 120),
+                    create_cell(phone, 90),
+                    create_cell(company, 100),
                 ]
             )
 
