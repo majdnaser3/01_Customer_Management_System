@@ -1,6 +1,6 @@
 [project]
 name = "customer-management-system"
-version = "0.1.0"
+version = "1.0.0"
 description = ""
 readme = "README.md"
 requires-python = ">=3.10"
@@ -27,7 +27,7 @@ testpaths = ["tests"]
 
 [tool.flet]
 org = "com.mycompany"
-product = "01-customer-management-system"
+product = "Customer Management System"
 company = "Flet"
 copyright = "Copyright (C) 2023-2026 by Flet"
 
