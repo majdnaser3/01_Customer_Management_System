@@ -10,7 +10,7 @@ def main(page: ft.Page):
 
     page.title = "Customer Management System"
     page.theme_mode = ft.ThemeMode.SYSTEM
-    page.window.width = 650
+    page.window.width = 400
     page.window.height = 700
     page.window.resizable = True
     page.vertical_alignment = ft.MainAxisAlignment.START
@@ -448,25 +448,37 @@ def main(page: ft.Page):
 
     customers_label = ft.Text(
         value="Customers",
-        size=30,
+        size=22,
         weight="bold",
     )
 
     add_customer_button = ft.Button(
         content="Add",
         icon=ft.Icons.ADD,
+        height=36,
+        style=ft.ButtonStyle(
+        padding=ft.Padding.symmetric(horizontal=6),
+    ),
         on_click=open_add_dialog,
     )
 
     edit_customer_button = ft.Button(
         content="Edit",
         icon=ft.Icons.EDIT,
+        height=36,
+        style=ft.ButtonStyle(
+        padding=ft.Padding.symmetric(horizontal=6),
+    ),
         on_click=open_edit_dialog,
     )
 
     delete_customer_button = ft.Button(
         content="Delete",
         icon=ft.Icons.DELETE,
+        height=36,
+        style=ft.ButtonStyle(
+        padding=ft.Padding.symmetric(horizontal=6),
+    ),
         on_click=open_delete_dialog,
     )
 
@@ -474,6 +486,7 @@ def main(page: ft.Page):
         hint_text="Search customers...",
         color=ft.Colors.WHITE,
         border_color=ft.Colors.WHITE,
+        width=370,
         on_change=handle_search,
     )
 
@@ -491,7 +504,7 @@ def main(page: ft.Page):
                         edit_customer_button,
                         delete_customer_button,
                     ],
-                    spacing=8,
+                    spacing=4,
                 ),
             ],
             alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
@@ -503,7 +516,10 @@ def main(page: ft.Page):
 
         ft.Divider(height=20),
 
-        customers_table,
+        ft.Row(
+            [customers_table],
+            scroll=ft.ScrollMode.AUTO
+        ),
     )
     load_customers()
 
