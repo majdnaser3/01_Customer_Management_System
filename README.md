@@ -1,69 +1,124 @@
-# 01CustomerManagementSystem app
+# Customer Management System
 
-## Run the app
+A desktop customer management application built with **Python, Flet, and SQLite**.
 
-### uv
+The application provides a simple interface for managing customer records, including creating, viewing, searching, editing, and deleting customers.
 
-Run as a desktop app:
+## Features
 
-```bash
-uv run flet run
+* Add new customers
+* View customer records
+* Search customers by:
+
+  * Name
+  * Email
+  * Phone
+  * Company
+* Edit existing customers
+* Delete customers with confirmation
+* Input validation
+* SQLite database persistence
+* Responsive layout suitable for smaller screens
+* Git/GitHub version control
+
+## Technologies
+
+* **Python**
+* **Flet**
+* **SQLite**
+* **Git**
+* **GitHub**
+
+## Project Structure
+
+```text
+01-Customer-Management-System/
+│
+├── assets/
+│   └── icon.png
+│
+├── data/
+│   └── .gitkeep
+│
+├── src/
+│   ├── main.py
+│   └── Customers_database.py
+│
+├── .gitignore
+├── pyproject.toml
+└── README.md
 ```
 
-Run as a web app:
+## Database
 
-```bash
-uv run flet run --web
+The application uses SQLite for local data storage.
+
+The database contains a `Customers` table with:
+
+* `id`
+* `name`
+* `email`
+* `phone`
+* `company`
+* `created_at`
+
+The database file is intentionally excluded from Git because it contains runtime application data.
+
+## Architecture
+
+```text
+Flet UI
+   ↓
+main.py
+   ↓
+Customers_database.py
+   ↓
+SQLite
 ```
 
-For more details on running the app, refer to the [Getting Started Guide](https://flet.dev/docs/).
+The user interface is separated from the database operations so that the application can be extended more easily in the future.
 
-## Build the app
+## Validation
 
-### Android
+The application validates customer input before saving:
 
-```bash
-flet build apk -v
-```
+* Name is required
+* Email is required and checked for a basic valid format
+* Phone number is required and accepts digits and `+`
+* Company is required
 
-For more details on building and signing `.apk` or `.aab`, refer to the [Android Packaging Guide](https://flet.dev/docs/publish/android/).
+## Running the Project
 
-### iOS
-
-```bash
-flet build ipa -v
-```
-
-For more details on building and signing `.ipa`, refer to the [iOS Packaging Guide](https://flet.dev/docs/publish/ios/).
-
-### macOS
+Install the project dependencies and run the application with:
 
 ```bash
-flet build macos -v
+flet run
 ```
 
-For more details on building macOS package, refer to the [macOS Packaging Guide](https://flet.dev/docs/publish/macos/).
+## Windows Build
 
-### Linux
+The application can be packaged as a Windows application using:
 
 ```bash
-flet build linux -v
+flet build windows
 ```
 
-For more details on building Linux package, refer to the [Linux Packaging Guide](https://flet.dev/docs/publish/linux/).
+The generated build files are excluded from Git.
 
-### Windows
+## Future Improvements
 
-```bash
-flet build windows -v
-```
+Possible future improvements include:
 
-For more details on building Windows package, refer to the [Windows Packaging Guide](https://flet.dev/docs/publish/windows/).
+* Improved mobile-specific UI
+* Additional customer fields
+* More advanced filtering and sorting
+* Data export/import
+* Authentication
+* Cloud database support
+* AI-powered customer management features
 
-### Web
+## Author
 
-```bash
-flet build web -v
-```
+**Majd Naser**
 
-For more details on building Web app, refer to the [Web Packaging Guide](https://flet.dev/docs/publish/web/).
+This project is part of my long-term journey toward becoming an **AI Solutions Developer**, with a focus on building practical software and AI-powered business solutions.
