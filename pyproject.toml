@@ -27,7 +27,7 @@ testpaths = ["tests"]
 
 [tool.flet]
 org = "com.mycompany"
-product = "Customer Management System"
+product = "customer-management-system"
 company = "Flet"
 copyright = "Copyright (C) 2023-2026 by Flet"
 
