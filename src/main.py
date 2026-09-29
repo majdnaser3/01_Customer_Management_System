@@ -1,4 +1,5 @@
 import flet as ft
+import Customers_database as cdb
 
 
 def main(page: ft.Page):
@@ -17,9 +18,6 @@ def main(page: ft.Page):
 
     # Track the customer currently being edited
     editing_customer_id = {"id": None}
-
-    # Keep generating unique IDs during this in-memory stage
-    next_customer_id = {"id": 1}
 
     # ---------------------------------------------------------
     # Customer table
@@ -83,6 +81,24 @@ def main(page: ft.Page):
             on_tap=on_cell_tap,
         )
 
+    def load_customers():
+        customers = cdb.GETcustomers()
+        customers_table.rows.clear()
+
+        for customer in customers:
+            customer_id, name, email, phone, company, created_at = customer
+
+            new_row = ft.DataRow(
+                cells=[
+                    create_cell(customer_id, 40),
+                    create_cell(name, 90),
+                    create_cell(email, 120),
+                    create_cell(phone, 90),
+                    create_cell(company, 100),
+            ]
+            )
+            customers_table.rows.append(new_row)
+
     # ---------------------------------------------------------
     # Customer selection
     # ---------------------------------------------------------
@@ -112,17 +128,32 @@ def main(page: ft.Page):
     # ---------------------------------------------------------
 
     def handle_search(e):
-        search_text = e.control.value.lower()
 
-        for row in customers_table.rows:
-            row.visible = False
+        search_text = e.control.value.strip()
 
-            for cell in row.cells:
-                cell_text = cell.content.content.value.lower()
+        if not search_text:
+            load_customers()
+            return
 
-                if search_text in cell_text:
-                    row.visible = True
-                    break
+        customers = cdb.SEARCHcustomers(search_text)
+
+        customers_table.rows.clear()
+
+        for customer in customers:
+
+            customer_id, name, email, phone, company, created_at = customer
+
+            new_row = ft.DataRow(
+                cells=[
+                    create_cell(customer_id, 40),
+                    create_cell(name, 90),
+                    create_cell(email, 120),
+                    create_cell(phone, 90),
+                    create_cell(company, 100),
+                ]
+            )
+
+            customers_table.rows.append(new_row)
 
         page.update()
 
@@ -289,44 +320,27 @@ def main(page: ft.Page):
 
             target_id = editing_customer_id["id"]
 
-            for row in customers_table.rows:
-
-                row_id = row.cells[0].content.content.value
-
-                if row_id == target_id:
-
-                    # Use cleaned values
-                    row.cells[1].content.content.value = name
-
-                    row.cells[2].content.content.value = email
-
-                    row.cells[3].content.content.value = phone
-
-                    row.cells[4].content.content.value = company
-
-                    break
+            cdb.UPDATEcustomer(
+                target_id,
+                name,
+                email,
+                phone,
+                company,
+            )
+            load_customers()
 
         # -----------------------------------------------------
         # Add new customer
         # -----------------------------------------------------
 
         else:
-
-            customer_id = next_customer_id["id"]
-
-            next_customer_id["id"] += 1
-
-            new_row = ft.DataRow(
-                cells=[
-                    create_cell(customer_id, 40),
-                    create_cell(name, 90),
-                    create_cell(email, 120),
-                    create_cell(phone, 90),
-                    create_cell(company, 100),
-                ]
+            cdb.ADDcustomer(
+                name,
+                email,
+                phone,
+                company,
             )
-
-            customers_table.rows.append(new_row)
+            load_customers()
 
         # -----------------------------------------------------
         # Finish
@@ -370,15 +384,8 @@ def main(page: ft.Page):
 
         if selected_id is not None:
 
-            for row in customers_table.rows:
-
-                row_id = row.cells[0].content.content.value
-
-                if row_id == selected_id:
-
-                    customers_table.rows.remove(row)
-
-                    break
+            cdb.DELETEcustomer(selected_id)
+            load_customers()
 
         confirm_delete_dialog.open = False
 
@@ -498,6 +505,7 @@ def main(page: ft.Page):
 
         customers_table,
     )
+    load_customers()
 
 
 if __name__ == "__main__":
