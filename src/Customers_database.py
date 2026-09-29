@@ -1,6 +1,12 @@
 import sqlite3
+from pathlib import Path
 
-con = sqlite3.connect("data/customers.db")
+BASE_DIR = Path(__file__).resolve().parent.parent
+DB_PATH = BASE_DIR / "data" / "customers.db"
+
+DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+con = sqlite3.connect(DB_PATH)
 
 cur = con.cursor()
 
