@@ -14,7 +14,12 @@ def main(page: ft.Page):
     page.window.height = 700
     page.window.resizable = True
     page.vertical_alignment = ft.MainAxisAlignment.START
-    page.padding = 12
+    page.padding = ft.Padding.only(
+    top=35,
+    left=12,
+    right=12,
+    bottom=12,
+)
 
     # Track the customer currently being edited
     editing_customer_id = {"id": None}
