@@ -521,9 +521,17 @@ def main(page: ft.Page):
 
         ft.Divider(height=20),
 
-        ft.Row(
-            [customers_table],
-            scroll=ft.ScrollMode.AUTO
+        ft.Container(
+            height=400,
+            content=ft.Column(
+            [  
+                ft.Row(
+                    [customers_table],
+                    scroll=ft.ScrollMode.AUTO,
+                ),
+            ],
+            scroll=ft.ScrollMode.AUTO,
+            ),
         ),
     )
     load_customers()
