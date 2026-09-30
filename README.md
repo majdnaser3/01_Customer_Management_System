@@ -100,7 +100,14 @@ flet run
 The application can be packaged as a Windows application using:
 
 ```bash
-flet build windows
+flet build windows -v
+```
+## Android Build
+
+The application can be packaged as an APK application using:
+
+```bash
+flet build apk -v
 ```
 
 The generated build files are excluded from Git.
